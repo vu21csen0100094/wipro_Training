@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const { MongoClient } = require('mongodb');
+        const uri = "your_mongodb_atlas_connection_string";
+        // This connection string can be obtained from MongoDB Atlas dashboard after creating a cluster and database user
+        const client = new MongoClient(uri);
+        async function run() {
+            try {
+                await client.connect();
+                console.log("Connected to MongoDB Atlas");
+            } catch (error) {
+                console.error("Error connecting to MongoDB Atlas:", error);
+            }
+        }
+        run();
+    </script>
+    
+</body>
+</html>

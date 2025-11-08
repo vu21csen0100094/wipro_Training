@@ -1,0 +1,189 @@
+-- Create Database
+CREATE DATABASE IF NOT EXISTS TechNovaDB;
+USE TechNovaDB;
+
+--  Create Tables
+CREATE TABLE IF NOT EXISTS Department (
+  DeptID INT PRIMARY KEY,
+  DeptName VARCHAR(50) UNIQUE NOT NULL,
+  Location VARCHAR(50)
+);
+
+USE TechNovaDB;
+
+CREATE TABLE Employee (
+    EmpID INT PRIMARY KEY AUTO_INCREMENT,
+    EmpName VARCHAR(50) NOT NULL,
+    Gender CHAR(1),
+    DOB DATE,
+    HireDate DATE,
+    DeptID INT,
+    FOREIGN KEY (DeptID) REFERENCES Department(DeptID)
+);
+
+CREATE TABLE Project (
+    ProjectID INT PRIMARY KEY AUTO_INCREMENT,
+    ProjectName VARCHAR(100),
+    DeptID INT,
+    StartDate DATE,
+    EndDate DATE,
+    FOREIGN KEY (DeptID) REFERENCES Department(DeptID)
+);
+
+CREATE TABLE Performance (
+    EmpID INT,
+    ProjectID INT,
+    Rating DECIMAL(3,1),
+    ReviewDate DATE,
+    PRIMARY KEY (EmpID, ProjectID),
+    FOREIGN KEY (EmpID) REFERENCES Employee(EmpID),
+    FOREIGN KEY (ProjectID) REFERENCES Project(ProjectID)
+);
+
+CREATE TABLE Reward (
+    EmpID INT,
+    RewardMonth VARCHAR(20),
+    RewardAmount DECIMAL(10,2),
+    FOREIGN KEY (EmpID) REFERENCES Employee(EmpID)
+);
+
+-- Indexes
+CREATE INDEX idx_empname ON Employee(EmpName);
+CREATE INDEX idx_deptid ON Employee(DeptID);
+
+-- Insert into Department
+INSERT INTO Department VALUES
+(101, 'IT', 'Bangalore'),
+(102, 'HR', 'Delhi'),
+(103, 'Finance', 'Mumbai'),
+(104, 'Sales', 'Chennai'),
+(105, 'Operations', 'Hyderabad');
+
+-- Insert into Employee
+INSERT INTO Employee (EmpName, Gender, DOB, HireDate, DeptID) VALUES
+('Asha', 'F', '1990-07-12', '2018-06-10', 101),
+('Raj', 'M', '1988-04-09', '2020-03-22', 102),
+('Neha', 'F', '1995-01-15', '2021-08-05', 101),
+('Vikram', 'M', '1992-10-19', '2019-09-14', 103),
+('Kiran', 'F', '1998-03-11', '2022-01-25', 104);
+
+-- Insert into Project
+INSERT INTO Project (ProjectName, DeptID, StartDate, EndDate) VALUES
+('TechUpgrade', 101, '2023-01-01', '2023-12-31'),
+('HRConnect', 102, '2022-06-01', '2023-03-30'),
+('FinanceTracker', 103, '2023-04-01', '2023-10-30'),
+('SalesBooster', 104, '2023-02-01', '2023-12-31'),
+('OpStream', 105, '2022-01-01', '2022-12-31');
+
+-- Insert into Performance
+INSERT INTO Performance VALUES
+(1, 1, 4.5, '2023-06-15'),
+(2, 2, 3.8, '2023-07-10'),
+(3, 1, 4.9, '2023-08-20'),
+(4, 3, 4.0, '2023-09-01'),
+(5, 4, 3.5, '2023-09-15');
+
+-- Insert into Reward
+INSERT INTO Reward VALUES
+(1, 'January', 2500),
+(2, 'February', 1800),
+(3, 'March', 3000),
+(4, 'April', 900),
+(5, 'May', 1500);
+
+-- Update one employee’s department
+UPDATE Employee SET DeptID = 103 WHERE EmpName = 'Kiran';
+
+-- Delete one reward record where amount < 1000
+DELETE FROM Reward WHERE RewardAmount < 1000;
+
+-- Employees joined after 2019-01-01
+SELECT EmpName, HireDate FROM Employee WHERE HireDate > '2019-01-01';
+
+--  Average performance rating per department
+SELECT d.DeptName, AVG(p.Rating) AS AvgRating
+FROM Performance p
+JOIN Employee e ON p.EmpID = e.EmpID
+JOIN Department d ON e.DeptID = d.DeptID
+GROUP BY d.DeptName;
+
+-- Employees with their age
+SELECT EmpName, YEAR(CURDATE()) - YEAR(DOB) AS Age FROM Employee;
+
+-- Total rewards in current year
+SELECT SUM(RewardAmount) AS TotalRewardsThisYear FROM Reward;
+
+--  Employees with rewards > 2000
+SELECT e.EmpName, r.RewardAmount
+FROM Employee e
+JOIN Reward r ON e.EmpID = r.EmpID
+WHERE r.RewardAmount > 2000;
+
+
+--  Employee Name, Department, Project, Rating
+SELECT e.EmpName, d.DeptName, p.ProjectName, perf.Rating
+FROM Employee e
+JOIN Department d ON e.DeptID = d.DeptID
+JOIN Performance perf ON e.EmpID = perf.EmpID
+JOIN Project p ON perf.ProjectID = p.ProjectID;
+
+--  Highest-rated employee in each department
+SELECT e.EmpName, d.DeptName, p.Rating
+FROM Performance p
+JOIN Employee e ON p.EmpID = e.EmpID
+JOIN Department d ON e.DeptID = d.DeptID
+WHERE (e.EmpID, p.Rating) IN (
+    SELECT EmpID, MAX(Rating)
+    FROM Performance
+    GROUP BY EmpID
+);
+
+-- Employees with no rewards
+SELECT EmpName
+FROM Employee
+WHERE EmpID NOT IN (SELECT EmpID FROM Reward);
+
+
+-- Transaction Example
+START TRANSACTION;
+
+INSERT INTO Employee (EmpName, Gender, DOB, HireDate, DeptID)
+VALUES ('Meena', 'F', '1996-02-10', '2023-10-01', 101);
+
+INSERT INTO Performance VALUES (LAST_INSERT_ID(), 1, 4.2, '2023-10-25');
+
+-- If all good
+COMMIT;
+-- If any error
+-- ROLLBACK;
+
+-- Query Optimization using EXPLAIN
+EXPLAIN SELECT e.EmpName, d.DeptName, p.ProjectName, perf.Rating
+FROM Employee e
+JOIN Department d ON e.DeptID = d.DeptID
+JOIN Performance perf ON e.EmpID = perf.EmpID
+JOIN Project p ON perf.ProjectID = p.ProjectID;
+
+-- Create indexes (already created earlier) to improve performance
+
+-- Create a View
+CREATE VIEW EmployeePerformanceView AS
+SELECT e.EmpName, d.DeptName, p.ProjectName, perf.Rating, r.RewardAmount
+FROM Employee e
+JOIN Department d ON e.DeptID = d.DeptID
+LEFT JOIN Performance perf ON e.EmpID = perf.EmpID
+LEFT JOIN Reward r ON e.EmpID = r.EmpID;
+
+-- Stored Procedure: GetTopPerformers
+DELIMITER //
+CREATE PROCEDURE GetTopPerformers(IN deptName VARCHAR(50))
+BEGIN
+    SELECT e.EmpName, d.DeptName, p.Rating
+    FROM Employee e
+    JOIN Department d ON e.DeptID = d.DeptID
+    JOIN Performance p ON e.EmpID = p.EmpID
+    WHERE d.DeptName = deptName
+    ORDER BY p.Rating DESC
+    LIMIT 3;
+END //
+DELIMITER ;
