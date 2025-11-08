@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>OCMS Mini — Browser Demo</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; padding: 20px; background:#f7fafc; color:#0f172a; }
+    h1 { margin:0 0 12px; font-size:20px; }
+    .container { display: grid; grid-template-columns: 1fr 380px; gap:18px; align-items:start; }
+    .card { background:white; border-radius:10px; box-shadow: 0 6px 20px rgba(2,6,23,0.06); padding:14px; }
+    #log { height: 420px; overflow:auto; white-space:pre-wrap; font-family: monospace; background:#0b1220; color:#dbeafe; padding:12px; border-radius:6px; }
+    button { padding:8px 12px; border-radius:8px; border: none; background:#0ea5a4; color:white; cursor:pointer; margin-right:8px; }
+    button.secondary { background:#94a3b8; }
+    .small { font-size:13px; color:#334155; margin-top:8px; }
+    ul { padding-left:18px; margin:6px 0; }
+    .panel { margin-bottom:12px; }
+    label { display:block; margin:6px 0 4px; font-size:13px; color:#0f172a; }
+    input[type="text"], input[type="number"] { padding:8px; border-radius:6px; border:1px solid #cbd5e1; width:100%; box-sizing:border-box; }
+  </style>
+</head>
+<body>
+  <h1>Online Course Management — Browser Demo</h1>
+  <div class="container">
+    <div class="card">
+      <div style="display:flex; gap:8px; align-items:center; margin-bottom:10px;">
+        <button id="runDemoBtn">Run Demo</button>
+        <button id="clearLogBtn" class="secondary">Clear Log</button>
+        <button id="exportBtn" class="secondary">Export Courses JSON</button>
+      </div>
+
+      <div class="panel">
+        <div id="log" aria-live="polite"></div>
+      </div>
+
+      <div class="small">Tip: click <b>Run Demo</b> to create instructors, courses, students, enroll and show final course list.</div>
+    </div>
+
+    <div class="card">
+      <div style="font-weight:600; margin-bottom:8px;">Current State</div>
+
+      <div style="margin-bottom:10px;">
+        <div style="font-weight:600">Courses</div>
+        <ul id="coursesList"><li style="color:#64748b">(no courses yet)</li></ul>
+      </div>
+
+      <div style="margin-bottom:10px;">
+        <div style="font-weight:600">Students</div>
+        <ul id="studentsList"><li style="color:#64748b">(no students yet)</li></ul>
+      </div>
+
+      <div style="margin-top:8px;">
+        <div style="font-weight:600">Quick actions</div>
+        <label for="jsonIn">Import JSON (courses)</label>
+        <textarea id="jsonIn" rows="6" style="width:100%; padding:8px; border-radius:6px; border:1px solid #e2e8f0; box-sizing:border-box;" placeholder='{"courses":[{"id":104,"title":"X","category":"Marketing","instructorId":1,"maxStudents":10}]}'></textarea>
+        <div style="margin-top:8px;"><button id="importJsonBtn">Import JSON</button></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ====== Simple in-browser OCMS implementation (plain JS) ======
+
+    // Enum replacement
+    const CourseCategory = {
+      Programming: "Programming",
+      Design: "Design",
+      Marketing: "Marketing",
+      Business: "Business",
+      DataScience: "DataScience"
+    };
+
+    // Utility: append to log area and console
+    const logEl = document.getElementById('log');
+    function log(...args) {
+      const time = new Date().toISOString();
+      const text = args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' ');
+      logEl.textContent += `[LOG] (${time}) ${text}\n\n`;
+      logEl.scrollTop = logEl.scrollHeight;
+      console.log(...args);
+      renderState();
+    }
+
+    // Simple classes mirroring your TS logic
+    class CourseCollection {
+      constructor(){
+        this.courses = new Map();
+      }
+      add(course) { this.courses.set(course.id, course); }
+      get(id) { return this.courses.get(id); }
+      values() { return Array.from(this.courses.values()); }
+      [Symbol.iterator]() { return this.courses.values(); }
+      remove(id) { return this.courses.delete(id); }
+    }
+
+    class OCMS {
+      constructor(){
+        this.instructors = new Map();
+        this.students = new Map();
+        this.courses = new CourseCollection();
+      }
+
+      createInstructor(instr) {
+        if (this.instructors.has(instr.id)) throw new Error('Instructor exists');
+        this.instructors.set(instr.id, instr);
+        log('Action: Create Instructor', instr);
+        return instr;
+      }
+
+      createCourse(course) {
+        if (this.courses.get(course.id)) throw new Error('Course exists');
+        if (!this.instructors.has(course.instructorId)) throw new Error('Instructor does not exist');
+        this.courses.add(course);
+        log('Action: Create Course', course);
+        return course;
+      }
+
+      createStudent(student) {
+        if (this.students.has(student.id)) throw new Error('Student exists');
+        // progress Map -> use plain object to keep it serializable in browser
+        student.progress = new Map();
+        student.enrolledCourseIds = student.enrolledCourseIds || [];
+        this.students.set(student.id, student);
+        log('Action: Create Student', student);
+        return student;
+      }
+
+      enroll(studentId, courseId) {
+        log('Action: Enroll Student', studentId, courseId);
+        const student = this.students.get(studentId);
+        const course = this.courses.get(courseId);
+        if (!student) throw new Error('Student not found');
+        if (!course) throw new Error('Course not found');
+        if (student.enrolledCourseIds.includes(courseId)) return `Student ${studentId} already enrolled`;
+        const enrolledCount = Array.from(this.students.values()).filter(s => s.enrolledCourseIds.includes(courseId)).length;
+        if (enrolledCount >= course.maxStudents) throw new Error(`Course ${course.title} is full`);
+        student.enrolledCourseIds.push(courseId);
+        student.progress.set(courseId, 0);
+        log(`Enrolled student ${studentId} to course ${courseId}`);
+        return true;
+      }
+
+      recordProgress(studentId, courseId, percent) {
+        log('Action: Record Progress', studentId, courseId, percent);
+        const student = this.students.get(studentId);
+        if (!student) throw new Error('Student not found');
+        if (!student.enrolledCourseIds.includes(courseId)) throw new Error('Not enrolled');
+        student.progress.set(courseId, Math.max(0, Math.min(100, percent)));
+        log('Progress recorded', { studentId, courseId, percent: student.progress.get(courseId) });
+        return student.progress.get(courseId);
+      }
+
+      importFromJson(untyped) {
+        log('Action: Import From JSON (untyped)', untyped);
+        if (!untyped || !Array.isArray(untyped.courses)) {
+          log('[ERROR] invalid payload');
+          return false;
+        }
+        for (const raw of untyped.courses) {
+          try {
+            const course = {
+              id: Number(raw.id),
+              title: String(raw.title),
+              category: raw.category || CourseCategory.Programming,
+              instructorId: Number(raw.instructorId),
+              maxStudents: Number(raw.maxStudents) || 30,
+              tags: raw.tags || []
+            };
+            try {
+              this.createCourse(course);
+            } catch (err) {
+              log('[WARN] importFromJson:', err.message);
+            }
+          } catch (err) {
+            log('[WARN] skipping bad item', raw);
+          }
+        }
+        return true;
+      }
+
+      exportCourseTuples() {
+        return this.courses.values().map(c => [c.id, c.title, c.category]);
+      }
+
+      listCourses() {
+        const out = [];
+        for (const c of this.courses) {
+          const instr = this.instructors.get(c.instructorId);
+          out.push(`#${c.id} "${c.title}" [${c.category}] by ${instr ? instr.name : 'Unknown'} (max ${c.maxStudents})`);
+        }
+        return out;
+      }
+    }
+
+    // Instance and UI wiring
+    const app = new OCMS();
+
+    function renderState() {
+      const coursesList = document.getElementById('coursesList');
+      const studentsList = document.getElementById('studentsList');
+      // courses
+      const courses = app.exportCourseTuples();
+      if (courses.length === 0) {
+        coursesList.innerHTML = '<li style="color:#64748b">(no courses yet)</li>';
+      } else {
+        coursesList.innerHTML = '';
+        for (const [id, title, cat] of courses) {
+          const li = document.createElement('li');
+          li.textContent = `#${id} — ${title} [${cat}]`;
+          coursesList.appendChild(li);
+        }
+      }
+      // students
+      const students = Array.from(app.students.values());
+      if (students.length === 0) {
+        studentsList.innerHTML = '<li style="color:#64748b">(no students yet)</li>';
+      } else {
+        studentsList.innerHTML = '';
+        for (const s of students) {
+          const li = document.createElement('li');
+          const enrolled = s.enrolledCourseIds && s.enrolledCourseIds.length ? ` Enrolled: ${s.enrolledCourseIds.join(',')}` : ' Not enrolled';
+          li.textContent = `${s.id} — ${s.name}${enrolled}`;
+          studentsList.appendChild(li);
+        }
+      }
+    }
+
+    // Demo function (mirrors your ts demo)
+    function demo() {
+      log('OCMS Mini App — demo run. Version: 1.0.0');
+      try {
+        app.createInstructor({ id:1, name:'Alice Johnson', email:'alice@example.com', specialties:[CourseCategory.Programming, CourseCategory.DataScience], bio:'15 years experience'});
+        app.createInstructor({ id:2, name:'Ravi Kumar', email:'ravi@example.com', specialties:[CourseCategory.Design]});
+        app.createCourse({ id:101, title:'Intro to TypeScript', category:CourseCategory.Programming, instructorId:1, maxStudents:2, tags:['ts','javascript'] });
+        app.createCourse({ id:102, title:'Design Basics', category:CourseCategory.Design, instructorId:2, maxStudents:25 });
+
+        app.createStudent({ id:201, name:'Sana', email:'sana@student.com', enrolledCourseIds:[], progress: new Map() });
+        app.createStudent({ id:202, name:'Ishaan', enrolledCourseIds:[], progress: new Map() });
+
+        app.enroll(201, 101);
+        app.enroll(202, 101);
+
+        // try full course
+        app.createStudent({ id:203, name:'Extra', enrolledCourseIds:[], progress: new Map() });
+        try {
+          app.enroll(203, 101);
+        } catch (e) {
+          log('[EXPECTED] could not enroll 203 to 101:', e.message);
+        }
+
+        app.recordProgress(201, 101, 40);
+        app.recordProgress(202, 101, 80);
+
+        log('Course tuples:', app.exportCourseTuples());
+        log('Courses list:');
+        for (const line of app.listCourses()) log(line);
+
+        // import JSON example
+        const someJsonPayload = { courses: [ { id:103, title:'Marketing 101', category:'Marketing', instructorId:1, maxStudents:20 }, { id:101, title:'Duplicate Course', category:'Programming', instructorId:1, maxStudents:10 } ] };
+        app.importFromJson(someJsonPayload);
+        log('Final course tuples after import:', app.exportCourseTuples());
+      } catch (err) {
+        log('[ERROR]', err.message || err);
+      }
+    }
+
+    // Wire up buttons
+    document.getElementById('runDemoBtn').addEventListener('click', () => demo());
+    document.getElementById('clearLogBtn').addEventListener('click', () => { logEl.textContent = ''; });
+    document.getElementById('exportBtn').addEventListener('click', () => {
+      const data = JSON.stringify({ courses: app.exportCourseTuples() }, null, 2);
+      // simple download
+      const blob = new Blob([data], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'courses.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+    document.getElementById('importJsonBtn').addEventListener('click', () => {
+      const txt = document.getElementById('jsonIn').value.trim();
+      if (!txt) return alert('Paste JSON to import (see placeholder).');
+      try {
+        const parsed = JSON.parse(txt);
+        app.importFromJson(parsed);
+        alert('Import attempted — check log for results.');
+      } catch (e) {
+        alert('Invalid JSON: ' + e.message);
+      }
+    });
+
+    // initial render
+    renderState();
+  </script>
+</body>
+</html>
