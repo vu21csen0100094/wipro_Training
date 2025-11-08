@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Employee Details Using ES6</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #f8f9fa;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: start;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #0078d7;
+    }
+
+    button {
+      background-color: #0078d7;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    button:hover {
+      background-color: #005fa3;
+    }
+
+    .output {
+      margin-top: 20px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 600px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h3 {
+      color: #444;
+      border-bottom: 2px solid #0078d7;
+      padding-bottom: 5px;
+    }
+
+    p {
+      line-height: 1.6;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    li {
+      background: #f0f4ff;
+      margin: 5px 0;
+      padding: 6px 10px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1> 💻 Employee Details Using ES6</h1>
+  <button onclick="runDemo()">Show Details</button>
+
+  <div class="output" id="output"></div>
+
+  <script>
+    const runDemo = () => {
+      const outputDiv = document.getElementById("output");
+      outputDiv.innerHTML = ""; // clear old output
+
+      // Use of let and const:Declare course name and institute name 
+      // using appropriate variable types (let for changeable, const for fixed).
+  
+      const companyName = "Wipro ";
+      let employeeCount = "20";
+      outputDiv.innerHTML += `<h3>Institute & Course</h3>
+        <p><b>Company Name:</b> ${companyName}<br>
+        <b>Employee Count:</b> ${employeeCount}</p>`;
+
+      
+      // Use of Spread Operator (...):
+      //Create two arrays: coreSubjects and advancedSubjects.
+      //Merge them into one array allSubjects using the spread operator.
+      
+      const permanentEmployees = ["Rashmita", "Ravi"];
+      const contractEmployees = ["Naina", "Sameer", "Manoj"];
+      const employees = [...permanentEmployees, ...contractEmployees];
+
+      outputDiv.innerHTML += `<h3>All Employees</h3><ul>`;
+      employees.forEach(sub => outputDiv.innerHTML += `<li>${sub}</li>`);
+      outputDiv.innerHTML += `</ul>`;
+
+      
+      // Use of Arrow Function:
+      //Create an arrow function greet(name) that returns a personalized welcome message for the student.
+      
+      const greet = name => `Welcome, ${name}! Hope you enjoy Working at ${companyName}.`;
+
+      
+      // Use of Class:
+      //Define a class Student with properties: name, age, and skills.
+      // Include a method display() that returns formatted student details.
+      // Create at least two student objects and display their details dynamically.
+      
+      class Student {
+        constructor(name, age, skills) {
+          this.name = name;
+          this.age = age;
+          this.skills = skills;
+        }
+
+        display() {
+          return `<b>Name:</b> ${this.name}<br><b>Age:</b> ${this.age}<br><b>Skills:</b> ${this.skills.join(", ")}`;
+        }
+      }
+
+      const student1 = new Student("P.Rahmita", 22, ["HTML", "CSS", "JavaScript"]);
+      const student2 = new Student("Ravi Adari", 30, ["Java", "React", "NodejsS"]);
+
+      outputDiv.innerHTML += `<h3>Employee Details</h3>`;
+      [student1, student2].forEach(stud => {
+        outputDiv.innerHTML += `<p>${greet(stud.name)}<br>${stud.display()}</p>`;
+      });
+
+      
+      // Use of Map Object:
+      // Create a Map to store student names as keys and their grades as values.
+      // Display the student names and corresponding grades.
+      
+      const studentGrades = new Map();
+      studentGrades.set("P.Rashmita", "B");
+      studentGrades.set("Ravi Adari", "A+");
+
+      outputDiv.innerHTML += `<h3>Student Grades (Map)</h3><ul>`;
+      studentGrades.forEach((grade, name) => {
+        outputDiv.innerHTML += `<li>${name} - Grade: ${grade}</li>`;
+      });
+      outputDiv.innerHTML += `</ul>`;
+
+      
+      // Use of Set Object:
+      // Create a Set containing student skills.
+      // Display only the unique skills (no duplicates).
+      
+      const skillsSet = new Set([
+        ...student1.skills,
+        ...student2.skills,
+        "JavaScript", // duplicate
+        "Java"      // duplicate
+      ]);
+
+      outputDiv.innerHTML += `<h3>Unique Skills (Set)</h3><ul>`;
+      skillsSet.forEach(skill => {
+        outputDiv.innerHTML += `<li>${skill}</li>`;
+      });
+      outputDiv.innerHTML += `</ul>`;
+
+      // Done ✅
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fetch API Example - Quotes</title>
+
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #f4f4f9;
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    #output {
+      background: white;
+      padding: 20px;
+      width: 70%;
+      margin: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: left;
+    }
+
+    h2 {
+      color: #0078d7;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin-top: 20px;
+      background-color: #0078d7;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #005fa3;
+    }
+
+    .quote-item {
+      background: #eaf3ff;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h2>💭Fetch Quotes Using API</h2>
+
+  <!-- Button to show the quotes when clicked -->
+  <button onclick="loadQuotes()">Fetch Quotes</button>
+
+  <!-- Output area to show quotes -->
+  <div id="output"></div>
+
+  <script>
+    // getting the div where we will show the data
+    const outputDiv = document.getElementById("output");
+
+    // function to get data from the API
+    function fetchQuotes() {
+      // fetch is used to get data from an online API link
+      return fetch('https://dummyjson.com/quotes')
+        .then(response => {
+          // checking if response is successful or not
+          if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+          }
+          // converting response into JSON (readable form)
+          return response.json();
+        });
+    }
+
+    // function to show quotes on the web page
+    function loadQuotes() {
+      // showing a message while data is loading
+      outputDiv.innerHTML = "<p>Loading quotes... ⏳</p>";
+
+      // calling the fetchQuotes function
+      fetchQuotes()
+        .then(data => {
+          // when data is ready, show success message
+          outputDiv.innerHTML = "<h3>✅ Quotes fetched successfully:</h3>";
+
+          // showing only first 10 quotes
+          data.quotes.slice(0, 10).forEach(item => {
+
+            // creating a new div for each quote
+            const quoteDiv = document.createElement("div");
+            quoteDiv.className = "quote-item";
+
+            // adding quote and author inside the div
+            quoteDiv.innerHTML = `<strong>"${item.quote}"</strong> — ${item.author}`;
+
+            // adding each quote to the main output area
+            outputDiv.appendChild(quoteDiv);
+          });
+        })
+        // if any error happens, show error message
+        .catch(error => {
+          outputDiv.innerHTML = `<p style="color:red;">⚠️ There was a problem fetching data: ${error.message}</p>`;
+        });
+    }
+  </script>
+
+</body>
+</html>
