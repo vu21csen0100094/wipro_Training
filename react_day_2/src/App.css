@@ -1,0 +1,118 @@
+/* 🌈 Base Layout */
+body {
+  background: linear-gradient(135deg, #FFF5DA, #FF6B71);
+  color: #3A4678;
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* 🧱 Main container */
+main {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(8px);
+  border-radius: 18px;
+  box-shadow: 0 10px 25px rgba(58, 70, 120, 0.3);
+  width: 90%;
+  max-width: 1000px;
+  margin-top: 3rem;
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 🌟 Header */
+header {
+  background: linear-gradient(90deg, #951F41, #FF6B71);
+  color: #fff;
+  text-align: center;
+  padding: 1.8rem 2rem;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 850px;
+  box-shadow: 0 4px 20px rgba(149, 31, 65, 0.3);
+  margin-bottom: 1.5rem;
+}
+
+header h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+/* 👥 User Section */
+section {
+  width: 100%;
+  text-align: center;
+}
+
+section h2 {
+  color: #951F41;
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+/* 💳 User Cards */
+.user-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.2rem;
+}
+
+.user-card {
+  background: #FFF5DA;
+  border-radius: 12px;
+  padding: 1rem 1.3rem;
+  color: #3A4678;
+  width: 250px;
+  border: 2px solid #FF6B71;
+  box-shadow: 0 6px 18px rgba(58, 70, 120, 0.2);
+  transition: all 0.3s ease;
+}
+
+.user-card:hover {
+  transform: translateY(-8px);
+  background: linear-gradient(145deg, #FF6B71, #FFF5DA);
+  color: #951F41;
+  border-color: #951F41;
+  box-shadow: 0 12px 30px rgba(149, 31, 65, 0.3);
+}
+
+/* 🦶 Footer */
+footer {
+  background: #3A4678;
+  color: #FFF5DA;
+  text-align: center;
+  padding: 1rem;
+  border-radius: 12px;
+  margin-top: 2rem;
+  width: 100%;
+  max-width: 850px;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 20px rgba(58, 70, 120, 0.3);
+}
+
+/* ✨ Button (for later use, add form or nav) */
+button {
+  background: #951F41;
+  color: #FFF5DA;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background: #FF6B71;
+  color: #3A4678;
+  transform: scale(1.05);
+}
