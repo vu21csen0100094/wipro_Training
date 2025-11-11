@@ -1,4 +1,4 @@
-/* 🌈 Base Layout */
+/* Base Layout */
 body {
   background: linear-gradient(135deg, #FFF5DA, #FF6B71);
   color: #3A4678;
@@ -11,7 +11,7 @@ body {
   align-items: flex-start;
 }
 
-/* 🧱 Main container */
+/* Main container */
 main {
   background: rgba(255, 255, 255, 0.65);
   backdrop-filter: blur(8px);
@@ -26,7 +26,7 @@ main {
   align-items: center;
 }
 
-/* 🌟 Header */
+/* Header */
 header {
   background: linear-gradient(90deg, #951F41, #FF6B71);
   color: #fff;
@@ -45,7 +45,7 @@ header h1 {
   letter-spacing: 1px;
 }
 
-/* 👥 User Section */
+/* User Section */
 section {
   width: 100%;
   text-align: center;
@@ -58,7 +58,7 @@ section h2 {
   font-weight: 600;
 }
 
-/* 💳 User Cards */
+/* User Cards */
 .user-container {
   display: flex;
   flex-wrap: wrap;
@@ -85,7 +85,7 @@ section h2 {
   box-shadow: 0 12px 30px rgba(149, 31, 65, 0.3);
 }
 
-/* 🦶 Footer */
+/* Footer */
 footer {
   background: #3A4678;
   color: #FFF5DA;
@@ -99,7 +99,7 @@ footer {
   box-shadow: 0 4px 20px rgba(58, 70, 120, 0.3);
 }
 
-/* ✨ Button (for later use, add form or nav) */
+/* Button (for later use, add form or nav) */
 button {
   background: #951F41;
   color: #FFF5DA;
