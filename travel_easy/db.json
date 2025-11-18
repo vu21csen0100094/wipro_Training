@@ -1,0 +1,81 @@
+{
+  "packages": [
+    {
+      "id": "1",
+      "title": "Puri Beach & Jagannath Temple Tour",
+      "location": "Puri, Odisha",
+      "price": 6999,
+      "duration": "3 Days / 2 Nights",
+      "image": "https://www.chardham-pilgrimage-tour.com/socialimg/puri-odisha-tourism.jpg",
+      "description": "Visit the sacred Jagannath Temple, explore Puri beaches, and enjoy a peaceful coastal getaway."
+    },
+    {
+      "id": "2",
+      "title": "Araku Valley Nature Retreat",
+      "location": "Araku, Andhra Pradesh",
+      "price": 8999,
+      "duration": "4 Days / 3 Nights",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/b/b0/Araku-valley.jpg",
+      "description": "Experience coffee plantations, Borra Caves, waterfalls, and scenic green valleys."
+    },
+    {
+      "id": "3",
+      "title": "Gangtok Himalayan Experience",
+      "location": "Gangtok, Sikkim",
+      "price": 12999,
+      "duration": "5 Days / 4 Nights",
+      "image": "https://s7ap1.scene7.com/is/image/incredibleindia/tsomgo-lake-gangtok-sikkim-2-attr-hero?qlt=82&ts=1742154563107",
+      "description": "Discover serene monasteries, snow-capped mountains, and the famous Tsomgo Lake."
+    },
+    {
+      "id": "4",
+      "title": "Manali Adventure Trip",
+      "location": "Manali, Himachal Pradesh",
+      "price": 14999,
+      "duration": "6 Days / 5 Nights",
+      "image": "https://res.cloudinary.com/dyiffrkzh/image/upload/c_fill,f_auto,fl_progressive.strip_profile,g_center,h_400,q_auto,w_700/v1718085494/banbanjara/agjodlg1fbske9mdrsoc.jpg",
+      "description": "Enjoy trekking, river rafting, snow activities, and breathtaking Himalayan views."
+    },
+    {
+      "id": "5",
+      "title": "Udaipur Royal Heritage Tour",
+      "location": "Udaipur, Rajasthan",
+      "price": 10999,
+      "duration": "4 Days / 3 Nights",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/6/69/Udaipur_City_Palace.jpg",
+      "description": "Explore palaces, lakes, and the vibrant Rajasthani culture in the City of Lakes."
+    },
+    {
+      "id": "6",
+      "title": "Delhi Historical City Exploration",
+      "location": "New Delhi, India",
+      "price": 5999,
+      "duration": "2 Days / 1 Night",
+      "image": "https://s7ap1.scene7.com/is/image/incredibleindia/humayuns-tomb-delhi-1-attr-hero?qlt=82&ts=1742197608302",
+      "description": "Visit India Gate, Red Fort, Qutub Minar, and enjoy delicious street food in the capital city."
+    }
+  ],
+  "bookings": [
+    {
+      "id": "dab9",
+      "name": "Rashmita",
+      "email": "rashmita@gmail.com",
+      "packageId": "4",
+      "travelers": 4
+    },
+    {
+      "id": "239e",
+      "name": "Rashmita",
+      "email": "rashmita@gmail.com",
+      "packageId": "1",
+      "travelers": 3
+    },
+    {
+      "id": "c05f",
+      "name": "sameer",
+      "email": "sameer@gmail.com",
+      "packageId": "4",
+      "travelers": 2
+    }
+  ]
+}

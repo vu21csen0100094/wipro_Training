@@ -1,0 +1,404 @@
+/* ============================
+   GLOBAL STYLING
+============================ */
+
+/* Prevent left-right page movement */
+html, body {
+  overflow-x: hidden;
+}
+
+
+:root {
+  --rose: #B98A99;
+  --pink: #F9E1E1;
+  --grey: #D3D0D4;
+  --seafoam: #A2BABE;
+  --teal: #18545E;
+}
+
+/* Page font */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Nunito", sans-serif;
+  background-color: var(--pink);
+  color: var(--teal);
+  letter-spacing: 0.3px;
+  
+}
+
+/* Heading font (premium) */
+h1, h2, h3 {
+  font-family: "Playfair Display", serif;
+  letter-spacing: 1px;
+  animation: fadeSlide 0.8s ease;
+}
+
+/* Smooth transitions */
+* {
+  transition: 0.25s ease;
+}
+
+/* Fade-slide effect for headings */
+@keyframes fadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================
+   NAVBAR (SOFT ROSE)
+============================ */
+/* FORCE a fixed navbar that stays on top */
+.navbar {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  z-index: 99999 !important;
+  background-color:  #18545E;  /* your navbar color */
+  padding: 14px 0 !important;
+  border-bottom: 3px solid #A2BABE;;
+  -webkit-transform: none !important;
+  transform: none !important;
+}
+
+/*To keep navbar still */
+.navbar .container { max-width: 1200px; margin: 0 auto; }
+
+
+.navbar-brand, .nav-link { color: #18545E !important; }
+
+:root { --nav-height: 72px; } /* fallback height */
+body { padding-top: var(--nav-height); }
+
+
+
+.navbar-brand {
+  color: var(--pink) !important;
+  font-weight: 700;
+  font-size: 24px;
+}
+
+/* Modern underline hover */
+.nav-link {
+  color: var(--pink) !important;
+  font-weight: 600;
+  padding: 6px 12px;
+  position: relative;
+}
+
+/* Animated underline */
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 3px;
+  background-color: var(--pink);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Hover background */
+.nav-link:hover {
+  background-color: var(--teal);
+  color: var(--pink) !important;
+  transform: translateY(-3px);
+  border-radius: 6px;
+}
+
+/* ============================
+   HERO (BABY PINK)
+============================ */
+.my-hero {
+  height: 60vh;
+  background-color: var(--pink);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  overflow: hidden;
+}
+
+.hero-inner h1 {
+  font-size: 48px;
+  font-weight: 800;
+  color: var(--teal);
+}
+
+.hero-inner p {
+  margin-top: 10px;
+  font-size: 19px;
+  color: var(--teal);
+  opacity: 0.9;
+}
+
+/* Premium Hero Button */
+.hero-btn {
+  margin-top: 18px;
+  background-color: var(--seafoam);
+  color: var(--teal);
+  padding: 12px 28px;
+  border-radius: 26px;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.hero-btn:hover {
+  background-color: var(--teal);
+  color: var(--pink);
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0px 12px 20px rgba(0,0,0,0.15);
+}
+
+/* ============================
+   ABOUT SECTION
+============================ */
+.about-block {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.about-block p {
+  font-size: 17px;
+  max-width: 800px;
+  margin: auto;
+}
+
+/* ============================
+   WHY CHOOSE US (GREY)
+============================ */
+.why-block {
+  background-color: var(--grey);
+  padding: 45px 0;
+  text-align: center;
+  border-radius: 12px;
+}
+
+.feature-card {
+  background-color: var(--pink);
+  border: 2px solid var(--rose);
+  border-radius: 14px;
+  padding: 20px;
+  margin: 12px;
+  cursor: pointer;
+}
+
+.card {
+  overflow: hidden; /* prevents zoom spill */
+}
+
+.feature-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  border-color: var(--teal);
+  box-shadow: 0px 18px 25px rgba(0,0,0,0.12);
+}
+
+/* ============================
+   DESTINATION CARDS
+============================ */
+.card {
+  background-color: var(--pink);
+  border: 2px solid var(--grey);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: 0.35s ease;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-10px) scale(1.03);
+  border-color: var(--rose);
+  box-shadow: 0px 20px 40px rgba(0,0,0,0.12);
+}
+
+.card img {
+  height: 230px;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+/* Slow zoom */
+.card:hover img {
+  transform: scale(1.15);
+}
+
+/* ============================
+   BUTTONS (General)
+============================ */
+.btn {
+  border-radius: 20px;
+  padding: 8px 18px;
+  font-weight: 600;
+}
+
+/* Seafoam main button */
+.btn-primary {
+  background-color: var(--seafoam);
+  color: var(--teal);
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: var(--teal);
+  color: var(--pink);
+  transform: translateY(-4px);
+}
+
+/* ============================
+   WISHLIST BUTTON
+============================ */
+.wishlist-btn {
+  background-color: var(--seafoam);
+  color: var(--teal);
+  border: 2px solid var(--teal);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.wishlist-btn:hover {
+  background-color: var(--teal);
+  color: var(--pink);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0px 10px 18px rgba(0,0,0,0.12);
+}
+
+/* ============================
+   SUBMIT BUTTON
+============================ */
+.submit-btn {
+  background-color: var(--seafoam);
+  color: var(--teal);
+  border: 2px solid var(--teal);
+  padding: 10px 20px;
+  border-radius: 22px;
+  font-weight: 700;
+  width: 140px;
+}
+
+.submit-btn:hover {
+  background-color: var(--teal);
+  color: var(--pink);
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0px 10px 18px rgba(0,0,0,0.12);
+}
+
+/* ============================
+   FORM CONTROLS
+============================ */
+.form-control {
+  border: 2px solid var(--grey);
+  border-radius: 8px;
+}
+
+.form-control:focus {
+  border-color: var(--teal);
+  box-shadow: none;
+}
+
+/* ============================
+   CTA BANNER
+============================ */
+.final-cta {
+  background-color: var(--teal);
+  color: var(--pink);
+  padding: 55px 0;
+  text-align: center;
+  margin-top: 40px;
+  border-radius: 14px;
+}
+
+.final-cta h2 {
+  font-size: 32px;
+}
+
+/* ============================
+   FOOTER (SOFT ROSE)
+============================ */
+footer {
+  background-color: var(--rose);
+  color: var(--pink);
+  text-align: center;
+  padding: 18px;
+  margin-top: 40px;
+}
+/*----------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------*/
+/* Soft premium overlay for hero section */
+.my-hero {
+  position: relative;
+}
+
+.my-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(249, 225, 225, 0.55); /* pastel pink overlay */
+  backdrop-filter: blur(3px); /* premium blur */
+  z-index: 1;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 2; /* keep text above overlay */
+  animation: heroFade 1s ease;
+}
+
+/* Hero fade-in animation */
+@keyframes heroFade {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+.hero-inner h1 {
+  animation: titlePop 1.2s ease;
+}
+
+@keyframes titlePop {
+  0% { opacity: 0; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.hero-inner p {
+  animation: taglineFade 1.4s ease;
+}
+
+@keyframes taglineFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.hero-btn {
+  box-shadow: 0 0 0 rgba(24, 84, 94, 0.4);
+  animation: pulsate 2s infinite;
+}
+
+@keyframes pulsate {
+  0% { box-shadow: 0 0 0 rgba(24, 84, 94, 0.0); }
+  50% { box-shadow: 0 0 18px rgba(24, 84, 94, 0.25); }
+  100% { box-shadow: 0 0 0 rgba(24, 84, 94, 0.0); }
+}
