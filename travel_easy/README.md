@@ -1,70 +1,161 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# TravelEasy – React Travel Booking Front-End
 
-## Available Scripts
+This project is a **Travel Booking Front-End Application** built using **React**.
+It contains a homepage, packages page, and booking form.
+It also uses **json-server** as a fake backend to store travel packages and booking details.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+##  Features Implemented
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 1. Homepage
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+* Beautiful hero section with background image
+* Navbar for navigation
+* About travel company
+* Why Choose Us section
+* Top Destinations displayed using reusable components
 
-### `npm test`
+### 2. Packages Page
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+* Data fetched from **json-server**
+* Axios used for API calls
+* Packages displayed using dynamic cards
+* Wishlist button included
 
-### `npm run build`
+### 3. Booking Form
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+* Built using **Formik**
+* Validated using **Yup**
+* Dropdown shows package list from json-server
+* Axios POST request saves booking to `db.json`
+* Clean pastel UI theme
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 4. Routing
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+* Implemented using **react-router-dom**
+* Working pages: `/`, `/packages`, `/book`, `/contact`
 
-### `npm run eject`
+### 5. PWA Support
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+* Includes manifest.json
+* App can run offline
+* Service worker registered
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 6. Custom Pastel UI Theme
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+* All UI colors from one color palette
+* Custom CSS
+* Hover effects, animation, sticky navbar
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## Technologies Used
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+| Technology       | Purpose                             |
+| ---------------- | ----------------------------------- |
+| **React**        | Front-end framework                 |
+| **React Router** | Navigation between pages            |
+| **Axios**        | Fetching and posting data           |
+| **Formik**       | Handling form state                 |
+| **Yup**          | Form validation                     |
+| **json-server**  | Fake backend / API                  |
+| **CSS**          | Custom pastel UI                    |
+| **PWA**          | Offline support + app-like features |
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Code Splitting
+## Folder Structure (Simple)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```
+src/
+  components/
+  pages/
+  assets/
+  styles/
+  App.js
+  index.js
+db.json
+```
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## How to Install
 
-### Making a Progressive Web App
+###  Install all dependencies
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```
+npm install
+```
 
-### Advanced Configuration
+###  Start React project
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```
+npm start
+```
 
-### Deployment
+###  Start json-server
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```
+npx json-server --watch db.json --port 5000
+```
 
-### `npm run build` fails to minify
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## How json-server Works
+
+* `GET http://localhost:5000/packages` → Shows list of travel packages
+* `POST http://localhost:5000/bookings` → Saves booking form data
+
+---
+
+## **"project Explaination"**
+
+**My project is a Travel Booking front-end application developed using React.
+It has multiple pages like the homepage, packages page, and booking form.
+The data for packages and bookings is handled using json-server, which works as a fake backend.
+I used Axios to fetch and submit data.
+The booking form is built using Formik and validated using Yup.
+The UI is made with a custom pastel theme using pure CSS.
+Routing is handled by react-router-dom, and the project also supports PWA features like offline mode."**
+
+---
+
+## **What React Components are used?**
+
+
+* Functional components
+* Props to pass data to child components
+* State management using hooks
+* useEffect for API calls
+* React Router for navigation
+* Reusable card components
+* Custom CSS styling
+* Formik + Yup for form handling
+
+---
+
+## **Data fetch**
+
+**I used Axios to fetch data from json-server.
+Packages are loaded using a GET request, and bookings are saved using a POST request.
+Data dynamically updates on the page without reloading.**
+
+---
+
+## **Booking Form**
+
+**The booking form uses Formik to manage the form state and Yup for validation.
+The package dropdown is dynamically loaded from json-server.
+When the user submits the form, the booking is posted into the db.json file.**
+
+---
+
+## **json-server**
+
+**json-server is a lightweight backend for testing APIs.
+It lets us store data in db.json and automatically creates REST APIs without writing backend code.**
+
+---
+
