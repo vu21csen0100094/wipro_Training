@@ -1,0 +1,26 @@
+<!-- Simple HTML form where user enters name & email -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration Form</title>
+</head>
+<body>
+
+    <h2>Simple Registration Form</h2>
+
+    <!-- The form submits data to /register using POST -->
+    <form action="/register" method="POST">
+
+        <!-- Input for user name -->
+        <input type="text" name="name" placeholder="Enter your name" required /><br/><br/>
+
+        <!-- Input for user email -->
+        <input type="email" name="email" placeholder="Enter your email" required /><br/><br/>
+
+        <!-- Submit button -->
+        <button type="submit">Submit</button>
+
+    </form>
+
+</body>
+</html>
