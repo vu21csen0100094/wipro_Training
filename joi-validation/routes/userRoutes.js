@@ -5,7 +5,7 @@
 //Step 4: Export the router for use in the main application.
 
 const express = require('express'); // Importing Express package
-const { validateRegister } = require('./joi/joiMiddleware'); //importing validation middleware
+const { validateRegister } = require('../joi/joiMiddleware'); //importing validation middleware
 const router = express.Router(); // Creating an Express router instance 
 // Controller function for user registration (for demonstration purposes)
 const registerUser = (req, res) => {
