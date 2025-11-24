@@ -1,0 +1,139 @@
+/* Body (WhatsApp Web background color) */
+body {
+    margin: 0;
+    padding: 0;
+    background: #e5ddd5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: "Segoe UI", sans-serif;
+}
+
+/* Main chat window box */
+#chat-container {
+    width: 400px;
+    height: 600px;
+    background: #fff;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0,0,0,0.25);
+}
+
+/* Top header bar (WhatsApp green) */
+#chat-header {
+    background: #075E54;
+    padding: 14px;
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* WhatsApp chat wallpaper */
+#messages {
+    flex: 1;
+    padding: 12px;
+    overflow-y: auto;
+    background-image: url("https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/96e750b6-3aea-4888-983a-d8f0a10ca98d/di04w97-65e15894-7da7-4bd2-be97-0d757006cb9f.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi85NmU3NTBiNi0zYWVhLTQ4ODgtOTgzYS1kOGYwYTEwY2E5OGQvZGkwNHc5Ny02NWUxNTg5NC03ZGE3LTRiZDItYmU5Ny0wZDc1NzAwNmNiOWYucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.ekeiqsRQjTV90GR4H9Wbh1cwXvAOjFbGPmoufrEG13k");
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Default chat bubble */
+#messages div {
+    max-width: 75%;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.3;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+    animation: popup 0.15s ease;
+}
+
+/* Incoming (left) messages */
+.incoming {
+    background: #ffffff;
+    align-self: flex-start;
+    border-top-left-radius: 0;
+}
+
+/* Outgoing (right) messages - WhatsApp green */
+.outgoing {
+    background: #dcf8c6;
+    align-self: flex-end;
+    border-top-right-radius: 0;
+}
+
+/* Input section - fixed at bottom */
+#input-area {
+    display: flex;
+    padding: 10px;
+    background: #f0f0f0;
+    gap: 8px;
+    align-items: center;
+}
+
+/* Message input */
+#message-input {
+    flex: 1;
+    padding: 10px 14px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    outline: none;
+    background: white;
+}
+
+/* Send button (WhatsApp color) */
+#send-button {
+    background: #128C7E;
+    border: none;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+/* Incoming (left bubble) */
+.incoming {
+    background: #faebeb !important;      /* solid white */
+    border-radius: 7px;
+    border-top-left-radius: 0;
+    padding: 8px 12px;
+    color: #111;
+    max-width: 75%;
+    align-self: flex-start;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+    display: inline-block;
+    opacity: 1 !important;
+}
+
+/* Outgoing (right bubble) */
+.outgoing {
+    background: #dcf8c6 !important;      /* WhatsApp green bubble */
+    border-radius: 7px;
+    border-top-right-radius: 0;
+    padding: 8px 12px;
+    color: #111;
+    max-width: 75%;
+    align-self: flex-end;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.2);
+    display: inline-block;
+    opacity: 1 !important;
+}
+
+
+#send-button:hover {
+    background: #0c6f63;
+}
+
+/* Pop animation */
+@keyframes popup {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
