@@ -1,28 +1,48 @@
 // --------------------------------------------
-// SERVER SETUP WITH GZIP + ROUTES + STATUS
+// SkillSphere API - Server Setup
 // --------------------------------------------
+
 const express = require("express");
 const compression = require("compression");
 
 const app = express();
-app.use(express.json());
-app.use(compression());   // Enables gzip compression
 
-// Status route for deployment
+// Middlewares
+app.use(express.json());
+app.use(compression());  // Enable gzip compression
+
+// -------------------------
+// DEFAULT HOME ROUTE (IMPORTANT FOR RENDER)
+// -------------------------
+app.get("/", (req, res) => {
+  res.send("SkillSphere API is running");
+});
+
+// -------------------------
+// STATUS ROUTE (DEPLOYMENT CHECK)
+// -------------------------
 app.get("/status", (req, res) => {
   res.send("App is live");
 });
 
-// Load routers
+// -------------------------
+// ROUTES
+// -------------------------
 const coursesRouter = require("./routes/courses");
 const usersRouter = require("./routes/users");
 
 app.use("/api/courses", coursesRouter);
 app.use("/api/users", usersRouter);
 
-// PORT from environment (Render/Heroku)
+// -------------------------
+// START SERVER
+// Render will inject process.env.PORT
+// -------------------------
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log("Server running on port", PORT));
 
-// Export app for SuperTest (very important)
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+// Export for testing (SuperTest)
 module.exports = app;
