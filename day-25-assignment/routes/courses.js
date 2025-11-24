@@ -1,31 +1,26 @@
 const express = require("express");
 const router = express.Router();
-const controller = require("../controllers/courses.controller");
 
-// ----------------------
-// HTML PAGE VERSION
-// ----------------------
-router.get("/", async (req, res) => {
-  const courses = [
-    "Node.js Basics",
-    "Express.js Mastery",
-    "React Advanced"
-  ];
-  
+// HTML COURSE PAGE (for browser)
+router.get("/", (req, res) => {
   const html = `
-  <h1>SkillSphere LMS Courses</h1>
-  <ul>
-    ${courses.map(c => `<li>${c}</li>`).join("")}
-  </ul>
+    <h1>SkillSphere LMS Courses</h1>
+    <ul>
+      <li>Node.js Basics</li>
+      <li>Express.js Mastery</li>
+      <li>React Advanced</li>
+    </ul>
   `;
-  
   res.send(html);
 });
 
-// ----------------------
-// API JSON VERSION
-// /courses/api
-// ----------------------
-router.get("/api", controller.getAll);
+// JSON API VERSION
+router.get("/api", (req, res) => {
+  res.json([
+    { id: 1, name: "Node.js Basics" },
+    { id: 2, name: "Express.js Mastery" },
+    { id: 3, name: "React Advanced" }
+  ]);
+});
 
 module.exports = router;
